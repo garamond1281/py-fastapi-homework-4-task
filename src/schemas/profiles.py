@@ -79,7 +79,7 @@ class ProfileCreateRequestSchema(ProfileBaseSchema):
             )
 
 
-class ProfileCreateResponseSchema(ProfileBaseSchema):
+class ProfileResponseSchema(ProfileBaseSchema):
     id: int
     user_id: int
     avatar: HttpUrl

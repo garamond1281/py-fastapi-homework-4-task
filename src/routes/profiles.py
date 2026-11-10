@@ -5,7 +5,7 @@ from sqlalchemy.orm import joinedload
 
 from config import get_jwt_auth_manager, get_s3_storage_client
 from exceptions import TokenExpiredError, S3FileUploadError, S3ConnectionError, InvalidTokenError
-from schemas import ProfileCreateResponseSchema, ProfileCreateRequestSchema
+from schemas import ProfileResponseSchema, ProfileCreateRequestSchema
 from database import get_db, UserModel, UserProfileModel, UserGroupEnum
 from security.http import get_token
 from security.interfaces import JWTAuthManagerInterface
@@ -16,7 +16,7 @@ router = APIRouter()
 
 @router.post(
     "/users/{user_id}/profile/",
-    response_model=ProfileCreateResponseSchema,
+    response_model=ProfileResponseSchema,
     status_code=status.HTTP_201_CREATED
 )
 async def create_profile(
@@ -99,7 +99,7 @@ async def create_profile(
     session.add(profile)
     await session.commit()
     await session.refresh(profile)
-    return ProfileCreateResponseSchema(
+    return ProfileResponseSchema(
         id=profile.id, user_id=profile.user_id,
         first_name=profile.first_name, last_name=profile.last_name,
         gender=profile.gender, date_of_birth=profile.date_of_birth,
